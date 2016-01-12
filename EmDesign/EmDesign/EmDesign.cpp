@@ -4,10 +4,12 @@
 #include "stdafx.h"
 #include "TouchScreenApi.h"
 #include "ScreenMatrixImpl.h"
+#include "Point.h"
 #include <algorithm>
 #include <iostream>
 
 #define ASSERT(x) if(x == false) { std::cout << "Test " << __FUNCTION__ << " failed in line "  << __LINE__ << std::endl;}
+
 void test_matrix_report_empty_to_touch()
 {
 	std::vector<int> empty_vec(100);
@@ -71,6 +73,17 @@ void test_matrix_report_touch_to_empty()
 	ASSERT(0 == third.compare(""));
 }
 
+void test_point_to_string()
+{
+	Point pt1(0);
+	ASSERT("D(1,1)" == pt1.toString());
+
+	Point pt2(99);
+	ASSERT("D(10,10)" == pt2.toString());
+}
+
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	test_matrix_report_empty_to_touch();
@@ -78,6 +91,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	test_matrix_report_touch_to_empty();
 	test_matrix_report_empty_to_empty();
 
+	test_point_to_string();
 	return 0;
 }
 

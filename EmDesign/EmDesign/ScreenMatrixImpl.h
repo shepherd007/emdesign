@@ -16,7 +16,8 @@ private:
 	States m_currentState;
 	bool m_lastEmpty;
 	std::string m_point;
-	void ScreenMatrixImpl::ChangeState(const std::vector<int>& );
-	
-
+	void processState(const std::vector<int>&);
+	void handleProcessingState(const std::vector<int>& v);
+	void handleNonProcessingLneState(const std::vector<int>& v);
+	void handleNonProcessingLeState(const std::vector<int>& v);
 };

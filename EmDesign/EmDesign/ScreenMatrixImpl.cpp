@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "ScreenMatrixImpl.h"
+#include <sstream>
+#include "Point.h"
 
 bool isEmpty(const std::vector<int>& v)
 {
@@ -14,62 +16,65 @@ bool isEmpty(const std::vector<int>& v)
 	return true;
 }
 
-void ScreenMatrixImpl::ChangeState(const std::vector<int>& v)
+void ScreenMatrixImpl::handleProcessingState(const std::vector<int>& v)
 {
 	bool isCurrentEmpty = isEmpty(v);
+	if(!isCurrentEmpty && m_lastEmpty)
+	{
+		Point pt(0);
+		
+		m_point = pt.toString();
+		m_currentState = States::NON_PROCESSING_LNE;
+	}
+	m_lastEmpty = isCurrentEmpty;
+}
 
-	Events currentEvent = Events::NO_CHANGE;
+void ScreenMatrixImpl::handleNonProcessingLneState(const std::vector<int>& v)
+{
+	bool isCurrentEmpty = isEmpty(v);
+	if (isCurrentEmpty && m_lastEmpty)
+	{
+		m_point = std::string("");
+		m_currentState = States::PROCESSING;
+	}
+	m_lastEmpty = isCurrentEmpty;
+}
 
+void ScreenMatrixImpl::handleNonProcessingLeState(const std::vector<int>& v)
+{
+	bool isCurrentEmpty = isEmpty(v);
 	if (isCurrentEmpty && !m_lastEmpty)
 	{
-		currentEvent = Events::FULL_TO_EMPTY;
+		m_currentState = States::NON_PROCESSING_LE;
 	}
-	else if (!isCurrentEmpty && m_lastEmpty)
+	else
 	{
-		currentEvent = Events::EMPTY_TO_FULL;
+		// just update position
+		Point pt(0);		
+		m_point = pt.toString();
 	}
-	else if (isCurrentEmpty && m_lastEmpty)
-	{
-		currentEvent = Events::EMPTY_TO_EMPTY;
-	}
+	m_lastEmpty = isCurrentEmpty;
+}
 
-	//
+void ScreenMatrixImpl::processState(const std::vector<int>& v)
+{
 	switch (m_currentState)
 	{
 	case States::PROCESSING:
-		if (currentEvent == Events::EMPTY_TO_FULL)
-		{
-			m_point = std::string("D(1,1)");
-			m_currentState = States::NON_PROCESSING_LNE;
-		}
+		handleProcessingState(v);
 		break;
 	case States::NON_PROCESSING_LE:
-		if (currentEvent == Events::EMPTY_TO_EMPTY)
-		{
-			m_point = std::string("");
-			m_currentState = States::PROCESSING;
-		}
-
+		handleNonProcessingLneState(v);
 		break;
 	case States::NON_PROCESSING_LNE:
-		if (currentEvent == Events::FULL_TO_EMPTY)
-		{
-			m_currentState = States::NON_PROCESSING_LE;
-		}
-		else
-		{
-			// just update position
-			m_point = std::string("D(1,1)");
-		}
+		handleNonProcessingLeState(v);
 		break;
 	}
-
-	m_lastEmpty = isCurrentEmpty;
 }
 
 string ScreenMatrixImpl::operator()(const std::vector<int>& data)
 {
-	ChangeState(data);
+	processState(data);
 
 	return m_point;
 }
