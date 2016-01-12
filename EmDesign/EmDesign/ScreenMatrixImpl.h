@@ -9,14 +9,14 @@ bool isEmpty(const std::vector<int>& v);
 
 class ScreenMatrixImpl : public ScreenMatrix {
 public:
-	ScreenMatrixImpl() : currentState(States::PROCESSING), lastEmpty(true) {}
+	ScreenMatrixImpl() : m_currentState(States::PROCESSING), m_lastEmpty(true) {}
 	virtual string operator()(const std::vector<int>& data);
 	virtual ~ScreenMatrixImpl() {}
 private:
-	States currentState;
-	bool lastEmpty;
-	std::string point;
-	void ScreenMatrixImpl::ChangeState(const std::vector<int>& vy);
+	States m_currentState;
+	bool m_lastEmpty;
+	std::string m_point;
+	void ScreenMatrixImpl::ChangeState(const std::vector<int>& );
 	
 
 };

@@ -68,7 +68,7 @@ void test_matrix_report_touch_to_empty()
 	std::string third = (*pMat)(empty_vec);
 	ASSERT(0 == first.compare("D(1,1)"));
 	ASSERT(0 == second.compare("D(1,1)"));
-	ASSERT(0 == second.compare(""));
+	ASSERT(0 == third.compare(""));
 }
 
 int _tmain(int argc, _TCHAR* argv[])
