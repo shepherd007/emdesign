@@ -3,6 +3,22 @@
 #include <sstream>
 #include "Point.h"
 
+//
+Point average(Point& pt1, Point& pt2)
+{
+	int x = (pt1.getX() + pt2.getX()) / 2;
+	int y = (pt1.getY() + pt2.getY()) / 2;
+
+	return Point(x, y);
+}
+
+//
+Point::Point(Point& pt)
+{
+	m_x = pt.getX();
+	m_y = pt.getY();
+}
+
 Point::Point(int pos)
 {
 	m_x = (pos % 10) + 1;
@@ -12,6 +28,17 @@ Point::Point(int pos)
 Point::Point(int x, int y) : m_x(x), m_y(y)
 {
 }
+
+int Point::getX()
+{
+	return m_x;
+}
+
+int Point::getY()
+{
+	return m_y;
+}
+
 std::string Point::toString()
 {
 	std::stringstream ss;
@@ -20,12 +47,12 @@ std::string Point::toString()
 	return ss.str();
 }
 
-
-
-Point Point::average(const Point& pt)
+//
+std::string NullPoint::toString()
 {
-	int x = (m_x + pt.m_x) / 2;
-	int y = (m_y + pt.m_y) / 2;
+	std::stringstream ss;
+	ss << "";
 
-	return Point(x, y);
+	return ss.str();
 }
+

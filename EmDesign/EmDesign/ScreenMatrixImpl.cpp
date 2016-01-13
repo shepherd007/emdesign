@@ -17,84 +17,92 @@ bool isEmpty(const std::vector<int>& v)
 	return true;
 }
 
-Point calcPoint(const std::vector<int>& v)
+PointObject* calcPoint(const std::vector<int>& v)
 {
+	PointObject* pO = nullptr;
+
 	int start_point = 0;
 	int end_point = 0;
-	auto it = std::find_if(v.begin(), v.end(), [](const int a) { return a != 0; });
-	if (it != v.end())
-	{
-		start_point = std::distance(v.begin(), it);
-	}
-	auto it2 = std::find_if(v.rbegin(), v.rend(), [](int a) { return (a == 1); });
-	if (it2 != v.rbegin())
-	{
-		end_point = std::distance(it2, v.rend()) - 1;
-	}
-	Point start(start_point);
-	Point end(end_point);
 
-	
-	return start.average(end);
-}
+	auto it = std::find_if(v.begin(), v.end(), [](const int a) { return (a != 0); });
+	auto it2 = std::find_if(v.rbegin(), v.rend(), [](int a) { return (a != 0); });
 
-void ScreenMatrixImpl::handleProcessingState(const std::vector<int>& v)
-{
-	bool isCurrentEmpty = isEmpty(v);
-	if(!isCurrentEmpty && m_lastEmpty)
+	if ((it != v.end()))// && (it2 != v.rbegin()))
 	{
-		m_point = m_lastPoint.toString();
-		m_currentState = States::NON_PROCESSING_LNE;
-	}
-	m_lastEmpty = isCurrentEmpty;
-}
+		Point startPt(std::distance(v.begin(), it));
+		Point endPt(std::distance(it2, v.rend()) - 1);
 
-void ScreenMatrixImpl::handleNonProcessingLastEmptyState(const std::vector<int>& v)
-{
-	bool isCurrentEmpty = isEmpty(v);
-	if (isCurrentEmpty && m_lastEmpty)
-	{
-		m_point = std::string("");
-		m_currentState = States::PROCESSING;
-	}
-	m_lastEmpty = isCurrentEmpty;
-}
-
-void ScreenMatrixImpl::handleNonProcessingLastNotEmptyState(const std::vector<int>& v)
-{
-	bool isCurrentEmpty = isEmpty(v);
-	if (isCurrentEmpty && !m_lastEmpty)
-	{
-		m_currentState = States::NON_PROCESSING_LE;
+		pO = new Point(average(startPt, endPt));
 	}
 	else
 	{
-		// just update position	
-		m_lastPoint = calcPoint(v);
-		m_point = m_lastPoint.toString();
+		pO = new NullPoint();
 	}
-	m_lastEmpty = isCurrentEmpty;
+
+	return pO;
 }
 
-void ScreenMatrixImpl::processState(const std::vector<int>& v)
+ScreenMatrixImpl::ScreenMatrixImpl() : 
+m_lastEmpty(true)
 {
-	switch (m_currentState)
+	m_lastPoint = new NullPoint();
+
+	m_pProcessingState = new ProcessingState(this);
+	m_pLastEmptyState = new ProcessingStateLastEmpty(this);
+	m_pLastNonEmptyState = new ProcessingStateLastNotEmpty(this);
+
+	m_pCurrentState = m_pProcessingState;
+}
+
+bool ScreenMatrixImpl::getLastEmptyFlag()
+{
+	return m_lastEmpty;
+}
+
+void ScreenMatrixImpl::setLastEmptyFlag(bool flag)
+{
+	m_lastEmpty = flag;
+}
+
+PointObject* ScreenMatrixImpl::getLastPoint()
+{
+	return m_lastPoint;
+}
+
+void ScreenMatrixImpl::print()
+{
+	m_pointStr = m_lastPoint->toString();
+}
+
+void ScreenMatrixImpl::setLastPoint(PointObject* pPoint)
+{
+	m_lastPoint = pPoint;
+}
+
+void ScreenMatrixImpl::changeState(States state)
+{
+	switch (state)
 	{
 	case States::PROCESSING:
-		handleProcessingState(v);
+		m_pCurrentState = m_pProcessingState;
 		break;
 	case States::NON_PROCESSING_LE:
-		handleNonProcessingLastEmptyState(v);
+		m_pCurrentState = m_pLastEmptyState;
 		break;
 	case States::NON_PROCESSING_LNE:
-		handleNonProcessingLastNotEmptyState(v);
+		m_pCurrentState = m_pLastNonEmptyState;
 		break;
 	}
 }
 
 string ScreenMatrixImpl::operator()(const std::vector<int>& data)
 {
-	processState(data);
+	//std::vector<int> vecCopy;
+	//std::copy_n(data.begin(), 100, std::back_inserter(vecCopy));
 
-	return m_point;
+	if (data.size() == 100)
+	{
+		m_pCurrentState->process(data);
+	}
+	return m_pointStr;
 }

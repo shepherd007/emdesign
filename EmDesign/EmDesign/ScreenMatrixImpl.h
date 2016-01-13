@@ -10,16 +10,24 @@ bool isEmpty(const std::vector<int>& v);
 
 class ScreenMatrixImpl : public ScreenMatrix {
 public:
-	ScreenMatrixImpl() : m_currentState(States::PROCESSING), m_lastEmpty(true), m_lastPoint(0) {}
+	ScreenMatrixImpl();
 	virtual string operator()(const std::vector<int>& data);
 	virtual ~ScreenMatrixImpl() {}
+	bool getLastEmptyFlag();
+	void setLastEmptyFlag(bool flag);
+	void changeState(States);
+	PointObject* getLastPoint();
+	void setLastPoint(PointObject*);
+	void print();
 private:
 	States m_currentState;
 	bool m_lastEmpty;
-	std::string m_point;
-	Point m_lastPoint;
-	void processState(const std::vector<int>&);
-	void handleProcessingState(const std::vector<int>& v);
-	void handleNonProcessingLastEmptyState(const std::vector<int>& v);
-	void handleNonProcessingLastNotEmptyState(const std::vector<int>& v);
+	std::string m_pointStr;
+	PointObject* m_lastPoint;
+
+	State* m_pProcessingState;
+	State* m_pLastEmptyState;
+	State* m_pLastNonEmptyState;
+
+	State* m_pCurrentState;
 };
