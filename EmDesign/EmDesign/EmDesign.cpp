@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <iostream>
 
+Point calcPoint(const std::vector<int>& v);
 #define ASSERT(x) if(x == false) { std::cout << "Test " << __FUNCTION__ << " failed in line "  << __LINE__ << std::endl;}
 
 void test_matrix_report_empty_to_touch()
@@ -82,6 +83,29 @@ void test_point_to_string()
 	ASSERT("D(10,10)" == pt2.toString());
 }
 
+void test_point_single_touch()
+{
+	std::vector<int> empty_vec(100);
+	std::vector<int> touched_vec(100);
+
+	touched_vec[8] = 1;
+
+	Point pt = calcPoint(touched_vec);
+	ASSERT("D(9,1)" == pt.toString());
+
+}
+
+void test_point_multi_touch()
+{
+	std::vector<int> empty_vec(100);
+	std::vector<int> touched_vec(100);
+
+	touched_vec[4] = 1;
+	touched_vec[21] = 1;
+	Point pt = calcPoint(touched_vec);
+	ASSERT("D(3,2)" == pt.toString());
+
+}
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -92,6 +116,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	test_matrix_report_empty_to_empty();
 
 	test_point_to_string();
+	test_point_single_touch();
+	test_point_multi_touch();
 	return 0;
 }
 

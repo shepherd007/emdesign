@@ -2,6 +2,7 @@
 #include "ScreenMatrixImpl.h"
 #include <sstream>
 #include "Point.h"
+#include <algorithm>
 
 bool isEmpty(const std::vector<int>& v)
 {
@@ -16,20 +17,39 @@ bool isEmpty(const std::vector<int>& v)
 	return true;
 }
 
+Point calcPoint(const std::vector<int>& v)
+{
+	int start_point = 0;
+	int end_point = 0;
+	auto it = std::find_if(v.begin(), v.end(), [](const int a) { return a != 0; });
+	if (it != v.end())
+	{
+		start_point = std::distance(v.begin(), it);
+	}
+	auto it2 = std::find_if(v.rbegin(), v.rend(), [](int a) { return (a == 1); });
+	if (it2 != v.rbegin())
+	{
+		end_point = std::distance(it2, v.rend()) - 1;
+	}
+	Point start(start_point);
+	Point end(end_point);
+
+	
+	return start.average(end);
+}
+
 void ScreenMatrixImpl::handleProcessingState(const std::vector<int>& v)
 {
 	bool isCurrentEmpty = isEmpty(v);
 	if(!isCurrentEmpty && m_lastEmpty)
 	{
-		Point pt(0);
-		
-		m_point = pt.toString();
+		m_point = m_lastPoint.toString();
 		m_currentState = States::NON_PROCESSING_LNE;
 	}
 	m_lastEmpty = isCurrentEmpty;
 }
 
-void ScreenMatrixImpl::handleNonProcessingLneState(const std::vector<int>& v)
+void ScreenMatrixImpl::handleNonProcessingLastEmptyState(const std::vector<int>& v)
 {
 	bool isCurrentEmpty = isEmpty(v);
 	if (isCurrentEmpty && m_lastEmpty)
@@ -40,7 +60,7 @@ void ScreenMatrixImpl::handleNonProcessingLneState(const std::vector<int>& v)
 	m_lastEmpty = isCurrentEmpty;
 }
 
-void ScreenMatrixImpl::handleNonProcessingLeState(const std::vector<int>& v)
+void ScreenMatrixImpl::handleNonProcessingLastNotEmptyState(const std::vector<int>& v)
 {
 	bool isCurrentEmpty = isEmpty(v);
 	if (isCurrentEmpty && !m_lastEmpty)
@@ -49,9 +69,9 @@ void ScreenMatrixImpl::handleNonProcessingLeState(const std::vector<int>& v)
 	}
 	else
 	{
-		// just update position
-		Point pt(0);		
-		m_point = pt.toString();
+		// just update position	
+		m_lastPoint = calcPoint(v);
+		m_point = m_lastPoint.toString();
 	}
 	m_lastEmpty = isCurrentEmpty;
 }
@@ -64,10 +84,10 @@ void ScreenMatrixImpl::processState(const std::vector<int>& v)
 		handleProcessingState(v);
 		break;
 	case States::NON_PROCESSING_LE:
-		handleNonProcessingLneState(v);
+		handleNonProcessingLastEmptyState(v);
 		break;
 	case States::NON_PROCESSING_LNE:
-		handleNonProcessingLeState(v);
+		handleNonProcessingLastNotEmptyState(v);
 		break;
 	}
 }

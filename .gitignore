@@ -8,3 +8,5 @@
 *.exe
 *.ilk
 *.lastbuildstate
+*.suo
+**/Debug
