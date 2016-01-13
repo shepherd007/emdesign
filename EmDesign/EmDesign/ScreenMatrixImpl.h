@@ -13,15 +13,11 @@ public:
 	ScreenMatrixImpl();
 	virtual string operator()(const std::vector<int>& data);
 	virtual ~ScreenMatrixImpl() {}
-	bool getLastEmptyFlag();
-	void setLastEmptyFlag(bool flag);
 	void changeState(States);
-	PointObject* getLastPoint();
-	void setLastPoint(PointObject*);
+	PointObject* getPoint();
+	void setPoint(PointObject*);
 	void print();
 private:
-	States m_currentState;
-	bool m_lastEmpty;
 	std::string m_pointStr;
 	PointObject* m_lastPoint;
 

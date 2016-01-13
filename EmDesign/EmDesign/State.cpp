@@ -3,9 +3,12 @@
 #include "ScreenMatrixImpl.h"
 #include <vector>
 
-bool isEmpty(const std::vector<int>& v);
 PointObject* calcPoint(const std::vector<int>& v);
 
+bool isPointValid(PointObject* pPoint)
+{
+	return typeid(*pPoint) == typeid(NullPoint);
+}
 //
 ProcessingState::ProcessingState(ScreenMatrixImpl* pContext)
 {
@@ -14,16 +17,18 @@ ProcessingState::ProcessingState(ScreenMatrixImpl* pContext)
 
 void ProcessingState::process(const std::vector<int>& v)
 {
-	bool isCurrentEmpty = isEmpty(v);
+	PointObject* pCurrentPoint = calcPoint(v);
 
-	if (!isCurrentEmpty && m_pContext->getLastEmptyFlag())
+	bool isCurrentEmpty = isPointValid(pCurrentPoint);
+	bool isPrevEmpty = isPointValid(m_pContext->getPoint());
+
+	if (!isCurrentEmpty && isPrevEmpty)
 	{
-		m_pContext->print();
-		m_pContext->setLastPoint(calcPoint(v));
+		m_pContext->print();		
 		m_pContext->changeState(States::NON_PROCESSING_LNE);
 	}
-	
-	m_pContext->setLastEmptyFlag(isCurrentEmpty);
+
+	m_pContext->setPoint(pCurrentPoint);
 }
 
 //
@@ -34,20 +39,18 @@ ProcessingStateLastNotEmpty::ProcessingStateLastNotEmpty(ScreenMatrixImpl* pCont
 
 void ProcessingStateLastNotEmpty::process(const std::vector<int>& v)
 {
-	bool isCurrentEmpty = isEmpty(v);
+	PointObject* pCurrentPoint = calcPoint(v);
 
-	if (isCurrentEmpty && !m_pContext->getLastEmptyFlag())
+	bool isCurrentEmpty = isPointValid(pCurrentPoint);
+	bool isPrevEmpty = isPointValid(m_pContext->getPoint());
+
+	if (isCurrentEmpty && !isPrevEmpty)
 	{
 		m_pContext->print();
-		m_pContext->setLastPoint(new NullPoint());
 		m_pContext->changeState(States::NON_PROCESSING_LE);
 	}
-	else if (!isCurrentEmpty)
-	{
-		m_pContext->setLastPoint(calcPoint(v));
-	}
 
-	m_pContext->setLastEmptyFlag(isCurrentEmpty);
+	m_pContext->setPoint(pCurrentPoint);
 }
 
 //
@@ -58,12 +61,16 @@ ProcessingStateLastEmpty::ProcessingStateLastEmpty(ScreenMatrixImpl* pContext)
 
 void ProcessingStateLastEmpty::process(const std::vector<int>& v)
 {
-	bool isCurrentEmpty = isEmpty(v);
+	PointObject* pCurrentPoint = calcPoint(v);
 
-	if (isCurrentEmpty && m_pContext->getLastEmptyFlag())
+	bool isCurrentEmpty = isPointValid(pCurrentPoint);
+	bool isPrevEmpty = isPointValid(m_pContext->getPoint());
+
+	if (isCurrentEmpty && isPrevEmpty)
 	{
 		m_pContext->print();
 		m_pContext->changeState(States::PROCESSING);
 	}
-	m_pContext->setLastEmptyFlag(isCurrentEmpty);
+
+	m_pContext->setPoint(pCurrentPoint);
 }

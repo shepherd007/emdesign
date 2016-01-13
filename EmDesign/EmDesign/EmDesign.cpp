@@ -91,6 +91,7 @@ void test_matrix_report_touch_to_empty2()
 	std::string first = (*pMat)(touched_vec1);
 	std::string second = (*pMat)(touched_vec2);
 	std::string third = (*pMat)(empty_vec);
+
 	ASSERT(0 == first.compare(""));
 	ASSERT(0 == second.compare(""));
 	ASSERT(0 == third.compare("D(2,1)"));
@@ -116,7 +117,9 @@ void test_matrix_index_out_of_bounds()
 	std::vector<int> empty_vec(100);
 	std::vector<int> touched_vec(200);
 	touched_vec[99] = 199;
+
 	ScreenMatrix* pMat = createScreenMatrix();
+
 	std::string first = (*pMat)(empty_vec);
 	std::string second = (*pMat)(touched_vec);
 	std::string third = (*pMat)(empty_vec);
