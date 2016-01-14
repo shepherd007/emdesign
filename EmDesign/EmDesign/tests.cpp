@@ -52,6 +52,82 @@ TEST_F(TouchFixture, test_matrix_report_touch_to_touch)
 }
 
 //
+TEST_F(TouchFixture, test_matrix_too_big_index_out_of_bounds)
+{
+	std::vector<int> empty_vec(100);
+	std::vector<int> touched_vec(200);
+	touched_vec[199] = 1;
+
+	ScreenMatrix* pMat = createScreenMatrix();
+
+	std::string first = (*pMat)(empty_vec);
+	std::string second = (*pMat)(touched_vec);
+	std::string third = (*pMat)(empty_vec);
+	std::string fourth = (*pMat)(empty_vec);
+
+	EXPECT_EQ(0, first.compare(""));
+	EXPECT_EQ(0, second.compare(""));
+	EXPECT_EQ(0, third.compare(""));
+	EXPECT_EQ(0, fourth.compare(""));
+}
+
+TEST_F(TouchFixture, test_matrix_too_big_index_in_bounds)
+{
+	std::vector<int> empty_vec(100);
+	std::vector<int> touched_vec(200);
+	touched_vec[99] = 1;
+
+	ScreenMatrix* pMat = createScreenMatrix();
+
+	std::string first = (*pMat)(empty_vec);
+	std::string second = (*pMat)(touched_vec);
+	std::string third = (*pMat)(empty_vec);
+	std::string fourth = (*pMat)(empty_vec);
+
+	EXPECT_EQ(0, first.compare(""));
+	EXPECT_EQ(0, second.compare(""));
+	EXPECT_EQ(0, third.compare("D(10,10)"));
+	EXPECT_EQ(0, fourth.compare(""));
+}
+
+TEST_F(TouchFixture, test_matrix_too_small_index_out_of_bounds)
+{
+	std::vector<int> empty_vec(100);
+	std::vector<int> touched_vec(200);
+	touched_vec[149] = 1;
+
+	ScreenMatrix* pMat = createScreenMatrix();
+
+	std::string first = (*pMat)(empty_vec);
+	std::string second = (*pMat)(touched_vec);
+	std::string third = (*pMat)(empty_vec);
+	std::string fourth = (*pMat)(empty_vec);
+
+	EXPECT_EQ(0, first.compare(""));
+	EXPECT_EQ(0, second.compare(""));
+	EXPECT_EQ(0, third.compare(""));
+	EXPECT_EQ(0, fourth.compare(""));
+}
+
+TEST_F(TouchFixture, test_matrix_too_small_index_in_bounds)
+{
+	std::vector<int> empty_vec(100);
+	std::vector<int> touched_vec(50);
+	touched_vec[49] = 1;
+
+	ScreenMatrix* pMat = createScreenMatrix();
+
+	std::string first = (*pMat)(empty_vec);
+	std::string second = (*pMat)(touched_vec);
+	std::string third = (*pMat)(empty_vec);
+	std::string fourth = (*pMat)(empty_vec);
+
+	EXPECT_EQ(0, first.compare(""));
+	EXPECT_EQ(0, second.compare(""));
+	EXPECT_EQ(0, third.compare("D(10,5)"));
+	EXPECT_EQ(0, fourth.compare(""));
+}
+
 TEST_F(TouchFixture, test_point_to_string)
 {
 	Point pt1(0);
