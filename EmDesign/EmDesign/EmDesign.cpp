@@ -1,4 +1,4 @@
-// EmDesign.cpp : Defines the entry point for the console application.
+ // EmDesign.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -184,17 +184,6 @@ void test_point_single_touch()
 
 	PointObject* pt = calcPoint(touched_vec);
 	ASSERT("D(9,1)" == pt->toString());
-}
-
-void test_point_multi_touch()
-{
-	std::vector<int> empty_vec(100);
-	std::vector<int> touched_vec(100);
-
-	touched_vec[4] = 1;
-	touched_vec[21] = 1;
-	PointObject* pt = calcPoint(touched_vec);
-	ASSERT("D(3,2)" == pt->toString());
 }
 
 int _tmain(int argc, _TCHAR* argv[])
