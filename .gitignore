@@ -10,3 +10,4 @@
 *.lastbuildstate
 *.suo
 **/Debug
+*.ipch

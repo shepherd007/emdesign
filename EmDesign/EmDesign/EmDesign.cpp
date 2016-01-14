@@ -18,21 +18,7 @@ PointObject* calcPoint(const std::vector<int>& v);
 #define ASSERT(x) if(x == false) { std::cout << "Test " << __FUNCTION__ << " failed in line "  << __LINE__ << std::endl; failedTests++; }
 
 // Sygnalem rozpoczecia przetwarzania jest odczyt pelnej matrycy nastepujacej po pustej
-void test_matrix_report_empty_to_touch()
-{
-	std::vector<int> empty_vec(100);
-	std::vector<int> touched_vec(100);
 
-	touched_vec[0] = 1;
-
-	ScreenMatrix* pMat = createScreenMatrix();
-
-	std::string first = (*pMat)(empty_vec);
-	std::string second = (*pMat)(touched_vec);
-
-	ASSERT(0 == first.compare(""));
-	ASSERT(0 == second.compare(""));
-}
 
 void test_matrix_report_touch_to_touch()
 {
@@ -227,30 +213,6 @@ void test_point_multi_touch()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	test_matrix_report_empty_to_touch();
-	test_matrix_report_touch_to_touch();
-	test_matrix_report_touch_to_empty1();
-	test_matrix_report_touch_to_empty2();
-	test_matrix_report_empty_to_empty();
-	test_matrix_report_empty_to_touch_to_empty();
-
-	test_matrix_too_big_index_out_of_bounds();
-	test_matrix_too_big_index_in_bounds();
-	test_matrix_too_small_index_out_of_bounds();
-	test_matrix_too_small_index_in_bounds();
-
-	test_point_to_string();
-	test_point_single_touch();
-	test_point_multi_touch();
-
-	if (failedTests == 0)
-	{
-		std::cout << "All tests passed" << std::endl;
-	}
-	else
-	{
-		std::cout << failedTests << " tests failed" << std::endl;
-	}
 
 	::testing::InitGoogleMock(&argc, argv);
 
