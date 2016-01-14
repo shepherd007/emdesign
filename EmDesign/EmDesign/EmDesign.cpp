@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <iostream>
 #include <tchar.h>
+#include "gtest.h"
+#include "gmock.h"
 
 
 int failedTests = 0;
