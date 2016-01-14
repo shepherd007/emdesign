@@ -8,8 +8,10 @@
 #include <algorithm>
 #include <iostream>
 
+int failedTests = 0;
+
 PointObject* calcPoint(const std::vector<int>& v);
-#define ASSERT(x) if(x == false) { std::cout << "Test " << __FUNCTION__ << " failed in line "  << __LINE__ << std::endl;}
+#define ASSERT(x) if(x == false) { std::cout << "Test " << __FUNCTION__ << " failed in line "  << __LINE__ << std::endl; failedTests++; }
 
 // Sygnalem rozpoczecia przetwarzania jest odczyt pelnej matrycy nastepujacej po pustej
 void test_matrix_report_empty_to_touch()
@@ -174,6 +176,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	test_point_to_string();
 	test_point_single_touch();
 	test_point_multi_touch();
+
+	if (failedTests == 0)
+	{
+		std::cout << "All tests passed" << std::endl;
+	}
+	else
+	{
+		std::cout << failedTests << " tests passed" << std::endl;
+	}
 	return 0;
 }
 
