@@ -52,6 +52,26 @@ TEST_F(TouchFixture, test_matrix_report_touch_to_touch)
 }
 
 //
+TEST_F(TouchFixture, test_point_to_string)
+{
+	Point pt1(0);
+	EXPECT_EQ("D(1,1)", pt1.toString());
+
+	Point pt2(99);
+	EXPECT_EQ("D(10,10)", pt2.toString());
+}
+
+TEST_F(TouchFixture, test_point_single_touch)
+{
+	std::vector<int> empty_vec(100);
+	std::vector<int> touched_vec(100);
+
+	touched_vec[8] = 1;
+
+	PointObject* pt = calcPoint(touched_vec);
+	EXPECT_EQ("D(9,1)", pt->toString());
+}
+
 TEST_F(TouchFixture, test_point_multi_touch)
 {
 	std::vector<int> empty_vec(100);
