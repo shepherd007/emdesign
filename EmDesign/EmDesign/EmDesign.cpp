@@ -153,26 +153,6 @@ void test_matrix_too_small_index_in_bounds()
 	ASSERT(0 == fourth.compare(""));
 }
 
-void test_point_to_string()
-{
-	Point pt1(0);
-	ASSERT("D(1,1)" == pt1.toString());
-
-	Point pt2(99);
-	ASSERT("D(10,10)" == pt2.toString());
-}
-
-void test_point_single_touch()
-{
-	std::vector<int> empty_vec(100);
-	std::vector<int> touched_vec(100);
-
-	touched_vec[8] = 1;
-
-	PointObject* pt = calcPoint(touched_vec);
-	ASSERT("D(9,1)" == pt->toString());
-}
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 
