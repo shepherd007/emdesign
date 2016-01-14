@@ -251,6 +251,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		std::cout << failedTests << " tests failed" << std::endl;
 	}
-	return 0;
+
+	::testing::InitGoogleMock(&argc, argv);
+
+	return RUN_ALL_TESTS();
 }
 
