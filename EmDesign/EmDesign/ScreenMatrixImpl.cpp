@@ -73,9 +73,12 @@ void ScreenMatrixImpl::changeState(States state)
 
 string ScreenMatrixImpl::operator()(const std::vector<int>& data)
 {
-	if (data.size() == 100)
-	{
-		m_pCurrentState->process(data);
-	}
+	std::vector<int> tmp(100);
+	
+	int size = std::min((int)data.size(), 100);
+	std::copy_n(data.begin(), size, tmp.begin());
+
+	m_pCurrentState->process(tmp);
+
 	return m_pointStr;
 }
