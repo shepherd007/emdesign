@@ -20,21 +20,7 @@ PointObject* calcPoint(const std::vector<int>& v);
 // Sygnalem rozpoczecia przetwarzania jest odczyt pelnej matrycy nastepujacej po pustej
 
 
-void test_matrix_report_touch_to_touch()
-{
-	std::vector<int> touched_vec1(100);
-	std::vector<int> touched_vec2(100);
 
-	touched_vec1[0] = 1;
-	touched_vec2[1] = 1;
-	ScreenMatrix* pMat = createScreenMatrix();
-
-	std::string first = (*pMat)(touched_vec1);
-	std::string second = (*pMat)(touched_vec2);
-
-	ASSERT(0 == first.compare(""));
-	ASSERT(0 == second.compare(""));
-}
 
 void test_matrix_report_empty_to_empty()
 {
