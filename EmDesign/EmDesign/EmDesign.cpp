@@ -115,11 +115,11 @@ void test_matrix_report_empty_to_touch_to_empty()
 	ASSERT(0 == third.compare("D(10,10)"));
 }
 
-void test_matrix_index_out_of_bounds()
+void test_matrix_index_out_of_bounds1()
 {
 	std::vector<int> empty_vec(100);
 	std::vector<int> touched_vec(200);
-	touched_vec[99] = 199;
+	touched_vec[199] = 1;
 
 	ScreenMatrix* pMat = createScreenMatrix();
 
@@ -130,6 +130,27 @@ void test_matrix_index_out_of_bounds()
 	ASSERT(0 == first.compare(""));
 	ASSERT(0 == second.compare(""));
 	ASSERT(0 == third.compare(""));
+}
+
+void test_matrix_index_out_of_bounds2()
+{
+	std::vector<int> empty_vec(100);
+	std::vector<int> touched_vec1(100);
+	std::vector<int> touched_vec2(200);
+	touched_vec1[99] = 1;
+	touched_vec2[199] = 1;
+
+	ScreenMatrix* pMat = createScreenMatrix();
+
+	std::string first = (*pMat)(empty_vec);
+	std::string second = (*pMat)(touched_vec1);
+	std::string third =  (*pMat)(touched_vec2);
+	std::string fourth = (*pMat)(empty_vec);
+
+	ASSERT(0 == first.compare(""));
+	ASSERT(0 == second.compare(""));
+	ASSERT(0 == third.compare(""));
+	ASSERT(0 == fourth.compare("D(10,10)"));
 }
 
 void test_point_to_string()
@@ -172,7 +193,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	test_matrix_report_empty_to_empty();
 	test_matrix_report_empty_to_touch_to_empty();
 
-	test_matrix_index_out_of_bounds();
+	test_matrix_index_out_of_bounds1();
+	test_matrix_index_out_of_bounds2();
 
 	test_point_to_string();
 	test_point_single_touch();
@@ -184,7 +206,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 	else
 	{
-		std::cout << failedTests << " tests passed" << std::endl;
+		std::cout << failedTests << " tests failed" << std::endl;
 	}
 	return 0;
 }
