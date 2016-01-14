@@ -1,6 +1,5 @@
 #pragma once
 
-#include "stdafx.h"
 #include <vector>
 
 class ScreenMatrixImpl;
@@ -9,7 +8,7 @@ class PointObject;
 enum class States
 {
 	NON_PROCESSING_LE, // send last
-	NON_PROCESSING_LNE, // update & send last 
+	NON_PROCESSING_LNE, // update & send last
 	PROCESSING // send ""
 };
 

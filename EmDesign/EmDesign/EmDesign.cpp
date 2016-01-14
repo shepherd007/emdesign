@@ -7,6 +7,7 @@
 #include "Point.h"
 #include <algorithm>
 #include <iostream>
+#include <tchar.h>
 
 int failedTests = 0;
 

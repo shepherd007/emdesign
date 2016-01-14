@@ -1,6 +1,5 @@
-#pragma once 
+#pragma once
 
-#include "stdafx.h"
 #include "TouchScreenApi.h"
 #include "State.h"
 #include "Point.h"

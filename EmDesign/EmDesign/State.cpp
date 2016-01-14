@@ -2,6 +2,7 @@
 #include "State.h"
 #include "ScreenMatrixImpl.h"
 #include <vector>
+#include <typeinfo>
 
 PointObject* calcPoint(const std::vector<int>& v);
 
@@ -24,7 +25,7 @@ void ProcessingState::process(const std::vector<int>& v)
 
 	if (!isCurrentEmpty && isPrevEmpty)
 	{
-		m_pContext->print();		
+		m_pContext->print();
 		m_pContext->changeState(States::NON_PROCESSING_LNE);
 	}
 

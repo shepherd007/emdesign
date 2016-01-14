@@ -17,10 +17,10 @@ private:
 	int m_y;
 public:
 	Point(int p);
-	Point(Point&);
+	Point(const Point&);
 	Point(int x, int y);
-	int getX();
-	int getY();
+	int getX() const;
+	int getY() const;
 	std::string toString();
 };
 

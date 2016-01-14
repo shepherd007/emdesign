@@ -13,7 +13,7 @@ Point average(Point& pt1, Point& pt2)
 }
 
 //
-Point::Point(Point& pt)
+Point::Point(const Point& pt)
 {
 	m_x = pt.getX();
 	m_y = pt.getY();
@@ -29,12 +29,12 @@ Point::Point(int x, int y) : m_x(x), m_y(y)
 {
 }
 
-int Point::getX()
+int Point::getX() const
 {
 	return m_x;
 }
 
-int Point::getY()
+int Point::getY() const
 {
 	return m_y;
 }
@@ -55,4 +55,3 @@ std::string NullPoint::toString()
 
 	return ss.str();
 }
-
