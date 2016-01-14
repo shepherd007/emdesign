@@ -22,19 +22,6 @@ PointObject* calcPoint(const std::vector<int>& v);
 
 
 
-void test_matrix_report_empty_to_empty()
-{
-	std::vector<int> empty_vec1(100);
-	std::vector<int> empty_vec2(100);
-
-	ScreenMatrix* pMat = createScreenMatrix();
-
-	std::string first = (*pMat)(empty_vec1);
-	std::string second = (*pMat)(empty_vec2);
-
-	ASSERT(0 == first.compare(""));
-	ASSERT(0 == second.compare(""));
-}
 
 // Sygnalem zakonczenia przetwarzania jest odczyt pustej matrycy po pelnej
 void test_matrix_report_touch_to_empty1()

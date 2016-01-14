@@ -11,3 +11,4 @@
 *.suo
 **/Debug
 *.ipch
+**/*.pch

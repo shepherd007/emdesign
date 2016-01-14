@@ -13,6 +13,8 @@ protected:
 	ScreenMatrix* pMat;
 
 	std::vector<int> empty_vec;
+	std::vector<int> empty_vec1;
+	std::vector<int> empty_vec2;
 	std::vector<int> touched_vec;
 	std::vector<int> touched_vec1;
 	std::vector<int> touched_vec2;
@@ -25,6 +27,8 @@ protected:
 		touched_vec[0] = 1;
 		touched_vec1 = std::vector<int>(touched_vec);
 		touched_vec2 = std::vector<int>(touched_vec);
+		empty_vec1 = std::vector<int>(empty_vec);
+		empty_vec2 = std::vector<int>(empty_vec);
 	}
 	void TearDown() {
 		delete pMat;
@@ -50,6 +54,16 @@ TEST_F(TouchFixture, test_matrix_report_touch_to_touch)
 	EXPECT_EQ(0, first.compare(""));
 	EXPECT_EQ(0, second.compare(""));
 }
+
+TEST_F(TouchFixture, test_matrix_report_empty_to_empty)
+{
+	std::string first = (*pMat)(empty_vec1);
+	std::string second = (*pMat)(empty_vec2);
+
+	EXPECT_EQ(0, first.compare(""));
+	EXPECT_EQ(0, second.compare(""));
+}
+
 
 //
 TEST_F(TouchFixture, test_point_multi_touch)
