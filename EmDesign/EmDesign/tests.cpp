@@ -58,8 +58,6 @@ TEST_F(TouchFixture, test_matrix_too_big_index_out_of_bounds)
 	std::vector<int> touched_vec(200);
 	touched_vec[199] = 1;
 
-	ScreenMatrix* pMat = createScreenMatrix();
-
 	std::string first = (*pMat)(empty_vec);
 	std::string second = (*pMat)(touched_vec);
 	std::string third = (*pMat)(empty_vec);
@@ -76,8 +74,6 @@ TEST_F(TouchFixture, test_matrix_too_big_index_in_bounds)
 	std::vector<int> empty_vec(100);
 	std::vector<int> touched_vec(200);
 	touched_vec[99] = 1;
-
-	ScreenMatrix* pMat = createScreenMatrix();
 
 	std::string first = (*pMat)(empty_vec);
 	std::string second = (*pMat)(touched_vec);
@@ -96,8 +92,6 @@ TEST_F(TouchFixture, test_matrix_too_small_index_out_of_bounds)
 	std::vector<int> touched_vec(200);
 	touched_vec[149] = 1;
 
-	ScreenMatrix* pMat = createScreenMatrix();
-
 	std::string first = (*pMat)(empty_vec);
 	std::string second = (*pMat)(touched_vec);
 	std::string third = (*pMat)(empty_vec);
@@ -114,8 +108,6 @@ TEST_F(TouchFixture, test_matrix_too_small_index_in_bounds)
 	std::vector<int> empty_vec(100);
 	std::vector<int> touched_vec(50);
 	touched_vec[49] = 1;
-
-	ScreenMatrix* pMat = createScreenMatrix();
 
 	std::string first = (*pMat)(empty_vec);
 	std::string second = (*pMat)(touched_vec);
