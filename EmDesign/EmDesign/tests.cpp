@@ -44,8 +44,8 @@ TEST_F(TouchFixture, test_matrix_report_empty_to_touch)
 	std::string first = (*pMat)(empty_vec);
 	std::string second = (*pMat)(touched_vec);
 
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare(""));
+	EXPECT_EQ("", first);
+	EXPECT_EQ("", second);
 }
 
 
@@ -54,8 +54,8 @@ TEST_F(TouchFixture, test_matrix_report_touch_to_touch)
 	std::string first = (*pMat)(touched_vec1);
 	std::string second = (*pMat)(touched_vec2);
 
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare(""));
+	EXPECT_EQ("", first);
+	EXPECT_EQ("", second);
 }
 
 TEST_F(TouchFixture, test_matrix_report_empty_to_empty)
@@ -63,8 +63,8 @@ TEST_F(TouchFixture, test_matrix_report_empty_to_empty)
 	std::string first = (*pMat)(empty_vec1);
 	std::string second = (*pMat)(empty_vec2);
 
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare(""));
+	EXPECT_EQ("", first);
+	EXPECT_EQ("", second);
 }
 
 // Sygnalem zakonczenia przetwarzania jest odczyt pustej matrycy po pelnej
@@ -74,9 +74,9 @@ TEST_F(TouchFixture, test_matrix_report_touch_to_empty1)
 	std::string first = (*pMat)(touched_vec);
 	std::string second = (*pMat)(empty_vec);
 	std::string third = (*pMat)(empty_vec);
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare("D(1,1)"));
-	EXPECT_EQ(0, third.compare(""));
+	EXPECT_EQ("", first);
+	EXPECT_EQ("D(1,1)", second);
+	EXPECT_EQ("", third);
 }
 
 // Gdy matryca pusta jest poprzedzona wiecej niz jedna matryca pelna, wynik powinien pochodzic z ostatniej pelnej matrycy
@@ -90,9 +90,9 @@ TEST_F(TouchFixture, test_matrix_report_touch_to_empty2)
 	std::string second = (*pMat)(touched_vec2);
 	std::string third = (*pMat)(empty_vec);
 
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare(""));
-	EXPECT_EQ(0, third.compare("D(2,1)"));
+	EXPECT_EQ("", first);
+	EXPECT_EQ("", second);
+	EXPECT_EQ("D(2,1)", third);
 }
 
 TEST_F(TouchFixture, test_matrix_report_empty_to_touch_to_empty)
@@ -102,9 +102,9 @@ TEST_F(TouchFixture, test_matrix_report_empty_to_touch_to_empty)
 	std::string second = (*pMat)(touched_vec);
 	std::string third = (*pMat)(empty_vec);
 
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare(""));
-	EXPECT_EQ(0, third.compare("D(10,10)"));
+	EXPECT_EQ("", first);
+	EXPECT_EQ("", second);
+	EXPECT_EQ("D(10,10)", third);
 }
 
 //
@@ -119,10 +119,10 @@ TEST_F(TouchFixture, test_matrix_too_big_index_out_of_bounds)
 	std::string third = (*pMat)(empty_vec);
 	std::string fourth = (*pMat)(empty_vec);
 
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare(""));
-	EXPECT_EQ(0, third.compare(""));
-	EXPECT_EQ(0, fourth.compare(""));
+	EXPECT_EQ("", first);
+	EXPECT_EQ("", second);
+	EXPECT_EQ("", third);
+	EXPECT_EQ("", fourth);
 }
 
 TEST_F(TouchFixture, test_matrix_too_big_index_in_bounds)
@@ -136,10 +136,10 @@ TEST_F(TouchFixture, test_matrix_too_big_index_in_bounds)
 	std::string third = (*pMat)(empty_vec);
 	std::string fourth = (*pMat)(empty_vec);
 
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare(""));
-	EXPECT_EQ(0, third.compare("D(10,10)"));
-	EXPECT_EQ(0, fourth.compare(""));
+	EXPECT_EQ("", first);
+	EXPECT_EQ("", second);
+	EXPECT_EQ("D(10,10)", third);
+	EXPECT_EQ("", fourth);
 }
 
 TEST_F(TouchFixture, test_matrix_too_small_index_out_of_bounds)
@@ -153,10 +153,10 @@ TEST_F(TouchFixture, test_matrix_too_small_index_out_of_bounds)
 	std::string third = (*pMat)(empty_vec);
 	std::string fourth = (*pMat)(empty_vec);
 
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare(""));
-	EXPECT_EQ(0, third.compare(""));
-	EXPECT_EQ(0, fourth.compare(""));
+	EXPECT_EQ("", first);
+	EXPECT_EQ("", second);
+	EXPECT_EQ("", third);
+	EXPECT_EQ("", fourth);
 }
 
 TEST_F(TouchFixture, test_matrix_too_small_index_in_bounds)
@@ -170,10 +170,24 @@ TEST_F(TouchFixture, test_matrix_too_small_index_in_bounds)
 	std::string third = (*pMat)(empty_vec);
 	std::string fourth = (*pMat)(empty_vec);
 
+	EXPECT_EQ("", first);
+	EXPECT_EQ("", second);
+	EXPECT_EQ("D(10,5)", third);
+	EXPECT_EQ("", fourth);
+}
+
+TEST_F(TouchFixture, test_matrix_simple_multitouch)
+{
+	std::vector<int> empty_vec(100);
+	std::vector<int> touched_vec(50);
+	touched_vec[0] = 1;
+	touched_vec[1] = 1;
+
+	std::string first = (*pMat)(touched_vec);
+	std::string second = (*pMat)(empty_vec);
+
 	EXPECT_EQ(0, first.compare(""));
 	EXPECT_EQ(0, second.compare(""));
-	EXPECT_EQ(0, third.compare("D(10,5)"));
-	EXPECT_EQ(0, fourth.compare(""));
 }
 
 TEST_F(TouchFixture, test_point_to_string)
