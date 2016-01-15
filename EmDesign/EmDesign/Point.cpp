@@ -55,3 +55,14 @@ std::string NullPoint::toString()
 
 	return ss.str();
 }
+
+
+//
+ParsedMatrix::ParsedMatrix(const std::vector<int>) {
+	// szukaj kolejnych punktow w wektorze
+	// laduj punkty do wektora points
+}
+
+bool ParsedMatrix::isEmpty() {
+	return true;
+}

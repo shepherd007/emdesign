@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 class Point;
 
 Point average(Point& pt1, Point& pt2);
@@ -28,4 +30,13 @@ class NullPoint : public PointObject
 {
 public:
 	std::string toString();
+};
+
+class ParsedMatrix {
+public:
+	ParsedMatrix(const std::vector<int>);
+	bool	isEmpty();
+	std::string toString();
+private:
+	std::vector<Point> points;
 };
