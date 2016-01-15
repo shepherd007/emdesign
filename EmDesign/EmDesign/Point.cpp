@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 #include "Point.h"
-
+#include <algorithm>
 //
 Point average(Point& pt1, Point& pt2)
 {
@@ -58,11 +58,44 @@ std::string NullPoint::toString()
 
 
 //
-ParsedMatrix::ParsedMatrix(const std::vector<int>) {
+ParsedMatrix::ParsedMatrix(const std::vector<int> v) 
+{
 	// szukaj kolejnych punktow w wektorze
 	// laduj punkty do wektora points
+	auto it = v.begin();
+	while (it != v.end())
+	{
+		auto curr = std::find_if(it, v.end(), [](int a) { return a != 0;  });
+		if (curr == v.end())
+			break;
+		points.push_back(new Point(std::distance(it, v.begin())));
+		it = curr;
+
+
+		it++;
+	}
+	
+
 }
 
-bool ParsedMatrix::isEmpty() {
-	return true;
+bool ParsedMatrix::isEmpty() 
+{
+	return points.empty();
+}
+
+std::string ParsedMatrix::toString()
+{
+	int calc = points.size();
+
+	switch (calc)
+	{
+	case 0:
+		return "";
+		break;
+	case 1:
+		return "D(1,1)";
+	default:
+		return "W[2(1,1)(1,1)]";
+	}
+
 }

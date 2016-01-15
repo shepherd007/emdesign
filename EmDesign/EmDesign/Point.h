@@ -38,5 +38,5 @@ public:
 	bool	isEmpty();
 	std::string toString();
 private:
-	std::vector<Point> points;
+	std::vector<Point*> points;
 };

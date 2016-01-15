@@ -19,7 +19,7 @@ public:
 private:
 	std::string m_pointStr;
 	PointObject* m_lastPoint;
-	ParsedMatrix x;
+	ParsedMatrix* x;
 	State* m_pProcessingState;
 	State* m_pLastEmptyState;
 	State* m_pLastNonEmptyState;

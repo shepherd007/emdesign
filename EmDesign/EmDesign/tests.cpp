@@ -10,6 +10,14 @@ PointObject* calcPoint(const std::vector<int>& v);
 using ::testing::StartsWith;
 using ::testing::EndsWith;
 
+
+class ParsedMatrixFixture : public ::testing::Test
+{
+protected:
+	void SetUp(){}
+	void TearDown() {};
+};
+
 class TouchFixture : public ::testing::Test
 {
 protected:
@@ -224,4 +232,38 @@ TEST_F(TouchFixture, test_point_multi_touch)
 	touched_vec[21] = 1;
 	PointObject* pt = calcPoint(touched_vec);
 	EXPECT_EQ("D(3,2)", pt->toString());
+}
+
+TEST_F(ParsedMatrixFixture, test_empty_matrix)
+{
+	std::vector<int> data(100);
+	ParsedMatrix* pMtx = new ParsedMatrix(data);
+
+	EXPECT_TRUE(pMtx->isEmpty());
+	EXPECT_EQ("", pMtx->toString());
+}
+
+TEST_F(ParsedMatrixFixture, test_onelement_matrix)
+{
+	std::vector<int> data(100);
+	data[0] = 1;
+	ParsedMatrix* pMtx = new ParsedMatrix(data);
+
+	std::string first = pMtx->toString();
+	EXPECT_FALSE(pMtx->isEmpty());
+	EXPECT_THAT(first, StartsWith("D("));
+	EXPECT_THAT(first, EndsWith(")"));
+}
+
+TEST_F(ParsedMatrixFixture, test_multilement_matrix)
+{
+	std::vector<int> data(100);
+	data[0] = 1;
+	data[1] = 1;
+	ParsedMatrix* pMtx = new ParsedMatrix(data);
+
+	std::string first = pMtx->toString();
+	EXPECT_FALSE(pMtx->isEmpty());
+	EXPECT_THAT(first, StartsWith("W["));
+	EXPECT_THAT(first, EndsWith("]"));
 }
