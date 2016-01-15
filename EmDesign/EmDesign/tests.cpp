@@ -7,6 +7,9 @@
 
 PointObject* calcPoint(const std::vector<int>& v);
 
+using ::testing::StartsWith;
+using ::testing::EndsWith;
+
 class TouchFixture : public ::testing::Test
 {
 protected:
@@ -186,8 +189,9 @@ TEST_F(TouchFixture, test_matrix_simple_multitouch)
 	std::string first = (*pMat)(touched_vec);
 	std::string second = (*pMat)(empty_vec);
 
-	EXPECT_EQ(0, first.compare(""));
-	EXPECT_EQ(0, second.compare(""));
+	EXPECT_EQ("", first);
+	EXPECT_THAT(second, StartsWith("W["));
+	EXPECT_THAT(second, EndsWith("]"));
 }
 
 TEST_F(TouchFixture, test_point_to_string)
@@ -198,6 +202,7 @@ TEST_F(TouchFixture, test_point_to_string)
 	Point pt2(99);
 	EXPECT_EQ("D(10,10)", pt2.toString());
 }
+
 
 TEST_F(TouchFixture, test_point_single_touch)
 {
